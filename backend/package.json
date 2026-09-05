@@ -1,0 +1,40 @@
+{
+  "name": "postly-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.js",
+    "start": "tsx src/index.js",
+    "db:generate": "node prisma-cli.js generate",
+    "db:migrate": "node prisma-cli.js migrate dev",
+    "db:deploy": "node prisma-cli.js migrate deploy",
+    "db:seed": "node prisma-cli.js db seed",
+    "db:reset": "node prisma-cli.js migrate reset --force",
+    "diagnose:baseline": "tsx scripts/capture-d06-baseline.js",
+    "diagnose:compare": "tsx scripts/capture-d07-comparison.js",
+    "test": "tsx --test --test-concurrency=1 tests/behavior.integration.test.js",
+    "prove:d08": "tsx scripts/capture-d08-proof.js"
+  },
+  "dependencies": {
+    "@apollo/server": "5.5.1",
+    "@as-integrations/express5": "1.1.2",
+    "@graphql-tools/schema": "10.1.0",
+    "@prisma/adapter-better-sqlite3": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "bcryptjs": "3.0.3",
+    "cors": "2.8.6",
+    "dataloader": "2.2.3",
+    "dotenv": "17.4.2",
+    "express": "5.2.1",
+    "graphql": "16.14.2",
+    "jsonwebtoken": "9.0.3",
+    "tsx": "4.23.13"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "prisma": "7.10.0"
+  }
+}

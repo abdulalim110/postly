@@ -1,0 +1,55 @@
+type Query {
+  health: String!
+  feed: [Post!]!
+  user(username: String!): User
+  me: User!
+}
+
+type Mutation {
+  register(input: RegisterInput!): AuthPayload!
+  login(identifier: String!, password: String!): AuthPayload!
+  createPost(caption: String!, imageKey: String!): Post!
+  createComment(postId: ID!, parentId: ID, content: String!): Comment!
+}
+
+type User {
+  id: ID!
+  name: String!
+  username: String!
+  email: String!
+  avatarKey: String!
+  bio: String!
+  createdAt: String!
+  posts: [Post!]!
+}
+
+type Post {
+  id: ID!
+  caption: String!
+  imageKey: String!
+  createdAt: String!
+  author: User!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  postId: ID!
+  parentId: ID
+  content: String!
+  createdAt: String!
+  author: User!
+  replies: [Comment!]!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input RegisterInput {
+  name: String!
+  username: String!
+  email: String!
+  password: String!
+}
