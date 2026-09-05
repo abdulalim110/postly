@@ -10,6 +10,8 @@ repository.
 - `docs/AGENTS.md` berisi aturan stabil dan guardrail repository.
 - `docs/plans/2026-09-05/01-build-break-diagnose-decide-fix-prove.md` menyimpan
   checklist dan log evidence implementasi awal yang sudah selesai.
+- `docs/facilitation/OPTIONAL-R2-IMAGE-UPLOAD.md` adalah playbook instructor
+  bila peserta meminta pembahasan image upload setelah materi utama selesai.
 - Perubahan dengan outcome atau akar masalah baru menggunakan plan bertanggal
   baru di `docs/plans/`, bukan checklist permanen di `AGENTS.md`.
 
