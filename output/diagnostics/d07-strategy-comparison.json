@@ -1,0 +1,953 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-05T06:18:22.432Z",
+  "scenario": "D07 relation-loading strategy comparison",
+  "database": "seeded local SQLite",
+  "graphql": {
+    "operationName": "PublicFeed",
+    "operation": "query PublicFeed {\n  feed {\n    id\n    caption\n    imageKey\n    createdAt\n    author {\n      id\n      name\n      username\n      avatarKey\n    }\n    comments {\n      id\n      postId\n      parentId\n      content\n      createdAt\n      author {\n        id\n        name\n        username\n        avatarKey\n      }\n      replies {\n        id\n        postId\n        parentId\n        content\n        createdAt\n        author {\n          id\n          name\n          username\n          avatarKey\n        }\n      }\n    }\n  }\n}"
+  },
+  "strategyOrder": [
+    "naive",
+    "prisma",
+    "batch",
+    "dataloader"
+  ],
+  "sourceManifest": [
+    {
+      "path": "backend/src/resolvers/Query.js",
+      "sha256": "33c6367a823a6180a257af979b25c985e21d55c465c3d7c704dc38c93b7504aa"
+    },
+    {
+      "path": "backend/src/resolvers/Post.js",
+      "sha256": "197a9eae1d8bc48531cad59a6ee8f4e48b6eb3b22d016c3d2272382d147fc417"
+    },
+    {
+      "path": "backend/src/resolvers/Comment.js",
+      "sha256": "f6a0a3a8a3fa95281d2570c5c010d4d35726b10948c6ce11cdd0e3e4e58560c4"
+    },
+    {
+      "path": "backend/src/resolvers/User.js",
+      "sha256": "21d4021f36b96653b8aed3bcdae0f69ba85c84f9bab4b2e577b2b5b7d354f6b8"
+    },
+    {
+      "path": "backend/src/relationStrategies/index.js",
+      "sha256": "2f9c9dc512b061a214554f7404331817be5a030caedfa4b9e48a992d7f3e0064"
+    },
+    {
+      "path": "backend/src/relationStrategies/naive.js",
+      "sha256": "3d8541569f12f64280ca30a9dfd1360a1adc7252e948d54839c50acf229b9460"
+    },
+    {
+      "path": "backend/src/relationStrategies/prismaRelationQuery.js",
+      "sha256": "4be31db3b6c272281148d9b0438f806b679167dc00d28f62435ba7cc40f95e48"
+    },
+    {
+      "path": "backend/src/relationStrategies/explicitBatching.js",
+      "sha256": "344913b50432818e5b5c55de3694722cf07b4c477f821661273ed597db14559c"
+    },
+    {
+      "path": "backend/src/relationStrategies/dataLoader.js",
+      "sha256": "b9e0524d325d96a2812f32b7f98bac8ca736ae5c64c144de8503ffc064fb916d"
+    },
+    {
+      "path": "backend/src/relationStrategies/batchQueries.js",
+      "sha256": "9adf6a3695a8a661cd6af5ad75edc73e3ef9ec58bf27723f659074114f677cbe"
+    },
+    {
+      "path": "backend/src/relationStrategies/manualBatchLoader.js",
+      "sha256": "bd09fb093aac71b08f111a44a72770d29f42ac6f3cbd04205b509ad40895d54f"
+    }
+  ],
+  "requestIsolation": {
+    "concurrentRequests": 2,
+    "traceIds": [
+      "f563ff23-c526-43af-97cc-42a6897c267c",
+      "1fda1264-d4ea-4231-9755-581d79ed69bc"
+    ],
+    "distinctTraceIds": true,
+    "prismaOperationCounts": [
+      4,
+      4
+    ],
+    "responsesMatchExpected": true
+  },
+  "runs": [
+    {
+      "strategy": "naive",
+      "resultShape": {
+        "posts": 8,
+        "topLevelComments": 16,
+        "replies": 6
+      },
+      "requestTrace": {
+        "traceId": "675e05b3-21d2-4cf4-8c46-1405fd163ddd",
+        "operationName": "PublicFeed",
+        "relationStrategy": "naive",
+        "startedAt": "2026-09-05T06:18:22.259Z",
+        "prismaOperationCount": 55,
+        "totalPrismaDurationMs": 693.188,
+        "operations": [
+          {
+            "sequence": 1,
+            "model": "Post",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 85.005
+          },
+          {
+            "sequence": 2,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.149
+          },
+          {
+            "sequence": 3,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.657
+          },
+          {
+            "sequence": 4,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.102
+          },
+          {
+            "sequence": 5,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.63
+          },
+          {
+            "sequence": 6,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.077
+          },
+          {
+            "sequence": 7,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.609
+          },
+          {
+            "sequence": 8,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.052
+          },
+          {
+            "sequence": 9,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.589
+          },
+          {
+            "sequence": 10,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.031
+          },
+          {
+            "sequence": 11,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.566
+          },
+          {
+            "sequence": 12,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.01
+          },
+          {
+            "sequence": 13,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.559
+          },
+          {
+            "sequence": 14,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 25.003
+          },
+          {
+            "sequence": 15,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.553
+          },
+          {
+            "sequence": 16,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 24.995
+          },
+          {
+            "sequence": 17,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 10.548
+          },
+          {
+            "sequence": 18,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.082
+          },
+          {
+            "sequence": 19,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.977
+          },
+          {
+            "sequence": 20,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.066
+          },
+          {
+            "sequence": 21,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.973
+          },
+          {
+            "sequence": 22,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.06
+          },
+          {
+            "sequence": 23,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.967
+          },
+          {
+            "sequence": 24,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.054
+          },
+          {
+            "sequence": 25,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.96
+          },
+          {
+            "sequence": 26,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.046
+          },
+          {
+            "sequence": 27,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.955
+          },
+          {
+            "sequence": 28,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.04
+          },
+          {
+            "sequence": 29,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.949
+          },
+          {
+            "sequence": 30,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.035
+          },
+          {
+            "sequence": 31,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.937
+          },
+          {
+            "sequence": 32,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.023
+          },
+          {
+            "sequence": 33,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.932
+          },
+          {
+            "sequence": 34,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.018
+          },
+          {
+            "sequence": 35,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.927
+          },
+          {
+            "sequence": 36,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.013
+          },
+          {
+            "sequence": 37,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.922
+          },
+          {
+            "sequence": 38,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 13.001
+          },
+          {
+            "sequence": 39,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.91
+          },
+          {
+            "sequence": 40,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 12.995
+          },
+          {
+            "sequence": 41,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.905
+          },
+          {
+            "sequence": 42,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 12.99
+          },
+          {
+            "sequence": 43,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.899
+          },
+          {
+            "sequence": 44,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 12.985
+          },
+          {
+            "sequence": 45,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.894
+          },
+          {
+            "sequence": 46,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 12.98
+          },
+          {
+            "sequence": 47,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.889
+          },
+          {
+            "sequence": 48,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 12.975
+          },
+          {
+            "sequence": 49,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 3.884
+          },
+          {
+            "sequence": 50,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 8.643
+          },
+          {
+            "sequence": 51,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 8.638
+          },
+          {
+            "sequence": 52,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 8.635
+          },
+          {
+            "sequence": 53,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 8.634
+          },
+          {
+            "sequence": 54,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 8.631
+          },
+          {
+            "sequence": 55,
+            "model": "User",
+            "operation": "findUniqueOrThrow",
+            "outcome": "ok",
+            "durationMs": 8.629
+          }
+        ],
+        "operationSummary": [
+          {
+            "operationName": "Comment.findMany",
+            "count": 24
+          },
+          {
+            "operationName": "Post.findMany",
+            "count": 1
+          },
+          {
+            "operationName": "User.findUniqueOrThrow",
+            "count": 30
+          }
+        ]
+      },
+      "sqlTrace": {
+        "sqlQueryCount": 26,
+        "totalSqlDurationMs": 32.507,
+        "queries": [
+          {
+            "sequence": 1,
+            "durationMs": 1.299,
+            "query": "SELECT `main`.`Post`.`id`, `main`.`Post`.`authorId`, `main`.`Post`.`caption`, `main`.`Post`.`imageKey`, `main`.`Post`.`createdAt` FROM `main`.`Post` WHERE 1=1 ORDER BY `main`.`Post`.`createdAt` DESC, `main`.`Post`.`id` DESC LIMIT ? OFFSET ?",
+            "params": "[-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 2,
+            "durationMs": 2.194,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-01\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 3,
+            "durationMs": 1.754,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-02\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 4,
+            "durationMs": 1.506,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-03\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 5,
+            "durationMs": 1.264,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-04\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 6,
+            "durationMs": 1.029,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-05\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 7,
+            "durationMs": 0.71,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-06\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 8,
+            "durationMs": 0.495,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-07\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 9,
+            "durationMs": 0.261,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-08\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 10,
+            "durationMs": 2.652,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-01\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 11,
+            "durationMs": 2.4,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-02\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 12,
+            "durationMs": 2.208,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-03\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 13,
+            "durationMs": 2.04,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-04\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 14,
+            "durationMs": 1.886,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-05\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 15,
+            "durationMs": 1.737,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-06\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 16,
+            "durationMs": 1.567,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-07\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 17,
+            "durationMs": 1.401,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-08\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 18,
+            "durationMs": 1.254,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-09\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 19,
+            "durationMs": 1.094,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-10\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 20,
+            "durationMs": 0.938,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-11\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 21,
+            "durationMs": 0.792,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-12\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 22,
+            "durationMs": 0.648,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-13\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 23,
+            "durationMs": 0.5,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-14\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 24,
+            "durationMs": 0.357,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-15\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 25,
+            "durationMs": 0.214,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-16\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 26,
+            "durationMs": 0.307,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-sarah\",\"seed-user-alex\",\"seed-user-emily\",\"seed-user-james\",\"seed-user-alex\",\"seed-user-sarah\",\"seed-user-alex\",\"seed-user-emily\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-james\",-1,\"0\"]",
+            "target": "ClientEngine"
+          }
+        ]
+      },
+      "responseMatchesBaseline": true
+    },
+    {
+      "strategy": "prisma",
+      "resultShape": {
+        "posts": 8,
+        "topLevelComments": 16,
+        "replies": 6
+      },
+      "requestTrace": {
+        "traceId": "bc9abcb5-b7e1-4bc2-83fd-cbb3bba9d89c",
+        "operationName": "PublicFeed",
+        "relationStrategy": "prisma",
+        "startedAt": "2026-09-05T06:18:22.390Z",
+        "prismaOperationCount": 1,
+        "totalPrismaDurationMs": 7.529,
+        "operations": [
+          {
+            "sequence": 1,
+            "model": "Post",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 7.529
+          }
+        ],
+        "operationSummary": [
+          {
+            "operationName": "Post.findMany",
+            "count": 1
+          }
+        ]
+      },
+      "sqlTrace": {
+        "sqlQueryCount": 6,
+        "totalSqlDurationMs": 1.591,
+        "queries": [
+          {
+            "sequence": 1,
+            "durationMs": 0.358,
+            "query": "SELECT `main`.`Post`.`id`, `main`.`Post`.`authorId`, `main`.`Post`.`caption`, `main`.`Post`.`imageKey`, `main`.`Post`.`createdAt` FROM `main`.`Post` WHERE 1=1 ORDER BY `main`.`Post`.`createdAt` DESC, `main`.`Post`.`id` DESC LIMIT ? OFFSET ?",
+            "params": "[-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 2,
+            "durationMs": 0.391,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?,?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 3,
+            "durationMs": 0.202,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`parentId` IS NULL AND `main`.`Comment`.`postId` IN (?,?,?,?,?,?,?,?)) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-01\",\"seed-post-02\",\"seed-post-03\",\"seed-post-04\",\"seed-post-05\",\"seed-post-06\",\"seed-post-07\",\"seed-post-08\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 4,
+            "durationMs": 0.327,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-emily\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-alex\",\"seed-user-alex\",\"seed-user-emily\",\"seed-user-emily\",\"seed-user-sarah\",\"seed-user-james\",\"seed-user-sarah\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 5,
+            "durationMs": 0.164,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-15\",\"seed-comment-16\",\"seed-comment-13\",\"seed-comment-14\",\"seed-comment-11\",\"seed-comment-12\",\"seed-comment-09\",\"seed-comment-10\",\"seed-comment-07\",\"seed-comment-08\",\"seed-comment-05\",\"seed-comment-06\",\"seed-comment-03\",\"seed-comment-04\",\"seed-comment-01\",\"seed-comment-02\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 6,
+            "durationMs": 0.149,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-james\",\"seed-user-emily\",\"seed-user-sarah\",\"seed-user-james\",\"seed-user-alex\",\"seed-user-emily\",-1,\"0\"]",
+            "target": "ClientEngine"
+          }
+        ]
+      },
+      "responseMatchesBaseline": true
+    },
+    {
+      "strategy": "batch",
+      "resultShape": {
+        "posts": 8,
+        "topLevelComments": 16,
+        "replies": 6
+      },
+      "requestTrace": {
+        "traceId": "8f0265e0-2732-4af4-8364-64bffc63c83c",
+        "operationName": "PublicFeed",
+        "relationStrategy": "batch",
+        "startedAt": "2026-09-05T06:18:22.401Z",
+        "prismaOperationCount": 4,
+        "totalPrismaDurationMs": 7.546,
+        "operations": [
+          {
+            "sequence": 1,
+            "model": "Post",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 1.848
+          },
+          {
+            "sequence": 2,
+            "model": "User",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 2.241
+          },
+          {
+            "sequence": 3,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 2.234
+          },
+          {
+            "sequence": 4,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 1.223
+          }
+        ],
+        "operationSummary": [
+          {
+            "operationName": "Comment.findMany",
+            "count": 2
+          },
+          {
+            "operationName": "Post.findMany",
+            "count": 1
+          },
+          {
+            "operationName": "User.findMany",
+            "count": 1
+          }
+        ]
+      },
+      "sqlTrace": {
+        "sqlQueryCount": 4,
+        "totalSqlDurationMs": 2.203,
+        "queries": [
+          {
+            "sequence": 1,
+            "durationMs": 0.359,
+            "query": "SELECT `main`.`Post`.`id`, `main`.`Post`.`authorId`, `main`.`Post`.`caption`, `main`.`Post`.`imageKey`, `main`.`Post`.`createdAt` FROM `main`.`Post` WHERE 1=1 ORDER BY `main`.`Post`.`createdAt` DESC, `main`.`Post`.`id` DESC LIMIT ? OFFSET ?",
+            "params": "[-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 2,
+            "durationMs": 1.113,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 3,
+            "durationMs": 0.326,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` IN (?,?,?,?,?,?,?,?) AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-01\",\"seed-post-02\",\"seed-post-03\",\"seed-post-04\",\"seed-post-05\",\"seed-post-06\",\"seed-post-07\",\"seed-post-08\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 4,
+            "durationMs": 0.405,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-01\",\"seed-comment-02\",\"seed-comment-03\",\"seed-comment-04\",\"seed-comment-05\",\"seed-comment-06\",\"seed-comment-07\",\"seed-comment-08\",\"seed-comment-09\",\"seed-comment-10\",\"seed-comment-11\",\"seed-comment-12\",\"seed-comment-13\",\"seed-comment-14\",\"seed-comment-15\",\"seed-comment-16\",-1,\"0\"]",
+            "target": "ClientEngine"
+          }
+        ]
+      },
+      "responseMatchesBaseline": true
+    },
+    {
+      "strategy": "dataloader",
+      "resultShape": {
+        "posts": 8,
+        "topLevelComments": 16,
+        "replies": 6
+      },
+      "requestTrace": {
+        "traceId": "f7e5b2b5-95d7-48c6-9805-cbafcc74d590",
+        "operationName": "PublicFeed",
+        "relationStrategy": "dataloader",
+        "startedAt": "2026-09-05T06:18:22.410Z",
+        "prismaOperationCount": 4,
+        "totalPrismaDurationMs": 7.523,
+        "operations": [
+          {
+            "sequence": 1,
+            "model": "Post",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 2.614
+          },
+          {
+            "sequence": 2,
+            "model": "User",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 1.908
+          },
+          {
+            "sequence": 3,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 1.901
+          },
+          {
+            "sequence": 4,
+            "model": "Comment",
+            "operation": "findMany",
+            "outcome": "ok",
+            "durationMs": 1.1
+          }
+        ],
+        "operationSummary": [
+          {
+            "operationName": "Comment.findMany",
+            "count": 2
+          },
+          {
+            "operationName": "Post.findMany",
+            "count": 1
+          },
+          {
+            "operationName": "User.findMany",
+            "count": 1
+          }
+        ]
+      },
+      "sqlTrace": {
+        "sqlQueryCount": 4,
+        "totalSqlDurationMs": 2.635,
+        "queries": [
+          {
+            "sequence": 1,
+            "durationMs": 0.773,
+            "query": "SELECT `main`.`Post`.`id`, `main`.`Post`.`authorId`, `main`.`Post`.`caption`, `main`.`Post`.`imageKey`, `main`.`Post`.`createdAt` FROM `main`.`Post` WHERE 1=1 ORDER BY `main`.`Post`.`createdAt` DESC, `main`.`Post`.`id` DESC LIMIT ? OFFSET ?",
+            "params": "[-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 2,
+            "durationMs": 1.125,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 3,
+            "durationMs": 0.324,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` IN (?,?,?,?,?,?,?,?) AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-01\",\"seed-post-02\",\"seed-post-03\",\"seed-post-04\",\"seed-post-05\",\"seed-post-06\",\"seed-post-07\",\"seed-post-08\",-1,\"0\"]",
+            "target": "ClientEngine"
+          },
+          {
+            "sequence": 4,
+            "durationMs": 0.413,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-01\",\"seed-comment-02\",\"seed-comment-03\",\"seed-comment-04\",\"seed-comment-05\",\"seed-comment-06\",\"seed-comment-07\",\"seed-comment-08\",\"seed-comment-09\",\"seed-comment-10\",\"seed-comment-11\",\"seed-comment-12\",\"seed-comment-13\",\"seed-comment-14\",\"seed-comment-15\",\"seed-comment-16\",-1,\"0\"]",
+            "target": "ClientEngine"
+          }
+        ]
+      },
+      "responseMatchesBaseline": true
+    }
+  ]
+}

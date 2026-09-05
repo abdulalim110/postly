@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-05T08:36:42.238Z",
+  "scenario": "D08 baseline-versus-fix behavior proof and rehearsal",
+  "sameBehaviorSignature": true,
+  "runs": [
+    {
+      "strategy": "naive",
+      "passed": true,
+      "checks": [
+        "clean migration and repeatable seed",
+        "public feed returns seeded nested structure",
+        "register hashes password without exposing the hash",
+        "login accepts seed email and username",
+        "protected mutation rejects missing authentication",
+        "authenticated user creates an allowlisted post",
+        "unknown image key is rejected",
+        "feed keeps newest-post ordering",
+        "public profile returns only the requested user's posts",
+        "top-level comment stores a null parentId",
+        "reply stores the exact top-level parentId",
+        "cross-post parent is rejected",
+        "reply to a reply is rejected",
+        "feed preserves comment and one-level reply structure",
+        "failed mutations leave no unexpected records"
+      ],
+      "cleanDatabase": {
+        "migrationApplied": true,
+        "seedOutput": "Running seed command `tsx prisma/seed.js` ...\nSeed complete: 4 users, 8 posts, 22 comments/replies.\n\nThe seed command has been executed.\nLoaded Prisma config from prisma.config.ts.",
+        "seedCounts": {
+          "users": 4,
+          "posts": 8,
+          "comments": 22
+        },
+        "removedAfterRun": true
+      },
+      "behaviorSignature": {
+        "checks": [
+          "clean migration and repeatable seed",
+          "public feed returns seeded nested structure",
+          "register hashes password without exposing the hash",
+          "login accepts seed email and username",
+          "protected mutation rejects missing authentication",
+          "authenticated user creates an allowlisted post",
+          "unknown image key is rejected",
+          "feed keeps newest-post ordering",
+          "public profile returns only the requested user's posts",
+          "top-level comment stores a null parentId",
+          "reply stores the exact top-level parentId",
+          "cross-post parent is rejected",
+          "reply to a reply is rejected",
+          "feed preserves comment and one-level reply structure",
+          "failed mutations leave no unexpected records"
+        ],
+        "cleanSeedCounts": {
+          "users": 4,
+          "posts": 8,
+          "comments": 22
+        },
+        "measuredShape": {
+          "posts": 8,
+          "topLevelComments": 16,
+          "replies": 6
+        },
+        "finalCounts": {
+          "users": 5,
+          "posts": 9,
+          "comments": 24
+        }
+      },
+      "queryEvidence": {
+        "operationName": "PublicFeed",
+        "resultShape": {
+          "posts": 8,
+          "topLevelComments": 16,
+          "replies": 6
+        },
+        "traceId": "a7e66513-4051-45a9-b63f-e72902f39a2e",
+        "prismaOperationCount": 55,
+        "totalPrismaDurationMs": 648.833,
+        "operationSummary": [
+          {
+            "operationName": "Comment.findMany",
+            "count": 24
+          },
+          {
+            "operationName": "Post.findMany",
+            "count": 1
+          },
+          {
+            "operationName": "User.findUniqueOrThrow",
+            "count": 30
+          }
+        ],
+        "sqlQueryCount": 26,
+        "totalSqlDurationMs": 29.997,
+        "sql": [
+          {
+            "sequence": 1,
+            "durationMs": 0.467,
+            "query": "SELECT `main`.`Post`.`id`, `main`.`Post`.`authorId`, `main`.`Post`.`caption`, `main`.`Post`.`imageKey`, `main`.`Post`.`createdAt` FROM `main`.`Post` WHERE 1=1 ORDER BY `main`.`Post`.`createdAt` DESC, `main`.`Post`.`id` DESC LIMIT ? OFFSET ?",
+            "params": "[-1,\"0\"]"
+          },
+          {
+            "sequence": 2,
+            "durationMs": 2.117,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-01\",-1,\"0\"]"
+          },
+          {
+            "sequence": 3,
+            "durationMs": 1.728,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-02\",-1,\"0\"]"
+          },
+          {
+            "sequence": 4,
+            "durationMs": 1.478,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-03\",-1,\"0\"]"
+          },
+          {
+            "sequence": 5,
+            "durationMs": 1.24,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-04\",-1,\"0\"]"
+          },
+          {
+            "sequence": 6,
+            "durationMs": 1.016,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-05\",-1,\"0\"]"
+          },
+          {
+            "sequence": 7,
+            "durationMs": 0.769,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-06\",-1,\"0\"]"
+          },
+          {
+            "sequence": 8,
+            "durationMs": 0.563,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-07\",-1,\"0\"]"
+          },
+          {
+            "sequence": 9,
+            "durationMs": 0.305,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` = ? AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-08\",-1,\"0\"]"
+          },
+          {
+            "sequence": 10,
+            "durationMs": 2.511,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-01\",-1,\"0\"]"
+          },
+          {
+            "sequence": 11,
+            "durationMs": 2.223,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-02\",-1,\"0\"]"
+          },
+          {
+            "sequence": 12,
+            "durationMs": 2.049,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-03\",-1,\"0\"]"
+          },
+          {
+            "sequence": 13,
+            "durationMs": 1.894,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-04\",-1,\"0\"]"
+          },
+          {
+            "sequence": 14,
+            "durationMs": 1.733,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-05\",-1,\"0\"]"
+          },
+          {
+            "sequence": 15,
+            "durationMs": 1.59,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-06\",-1,\"0\"]"
+          },
+          {
+            "sequence": 16,
+            "durationMs": 1.445,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-07\",-1,\"0\"]"
+          },
+          {
+            "sequence": 17,
+            "durationMs": 1.297,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-08\",-1,\"0\"]"
+          },
+          {
+            "sequence": 18,
+            "durationMs": 1.157,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-09\",-1,\"0\"]"
+          },
+          {
+            "sequence": 19,
+            "durationMs": 1.013,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-10\",-1,\"0\"]"
+          },
+          {
+            "sequence": 20,
+            "durationMs": 0.871,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-11\",-1,\"0\"]"
+          },
+          {
+            "sequence": 21,
+            "durationMs": 0.721,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-12\",-1,\"0\"]"
+          },
+          {
+            "sequence": 22,
+            "durationMs": 0.578,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-13\",-1,\"0\"]"
+          },
+          {
+            "sequence": 23,
+            "durationMs": 0.436,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-14\",-1,\"0\"]"
+          },
+          {
+            "sequence": 24,
+            "durationMs": 0.3,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-15\",-1,\"0\"]"
+          },
+          {
+            "sequence": 25,
+            "durationMs": 0.164,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` = ? ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-16\",-1,\"0\"]"
+          },
+          {
+            "sequence": 26,
+            "durationMs": 0.332,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-sarah\",\"seed-user-alex\",\"seed-user-emily\",\"seed-user-james\",\"seed-user-alex\",\"seed-user-sarah\",\"seed-user-alex\",\"seed-user-emily\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",\"seed-user-emily\",\"seed-user-james\",-1,\"0\"]"
+          }
+        ]
+      }
+    },
+    {
+      "strategy": "dataloader",
+      "passed": true,
+      "checks": [
+        "clean migration and repeatable seed",
+        "public feed returns seeded nested structure",
+        "register hashes password without exposing the hash",
+        "login accepts seed email and username",
+        "protected mutation rejects missing authentication",
+        "authenticated user creates an allowlisted post",
+        "unknown image key is rejected",
+        "feed keeps newest-post ordering",
+        "public profile returns only the requested user's posts",
+        "top-level comment stores a null parentId",
+        "reply stores the exact top-level parentId",
+        "cross-post parent is rejected",
+        "reply to a reply is rejected",
+        "feed preserves comment and one-level reply structure",
+        "failed mutations leave no unexpected records"
+      ],
+      "cleanDatabase": {
+        "migrationApplied": true,
+        "seedOutput": "Running seed command `tsx prisma/seed.js` ...\nSeed complete: 4 users, 8 posts, 22 comments/replies.\n\nThe seed command has been executed.\nLoaded Prisma config from prisma.config.ts.",
+        "seedCounts": {
+          "users": 4,
+          "posts": 8,
+          "comments": 22
+        },
+        "removedAfterRun": true
+      },
+      "behaviorSignature": {
+        "checks": [
+          "clean migration and repeatable seed",
+          "public feed returns seeded nested structure",
+          "register hashes password without exposing the hash",
+          "login accepts seed email and username",
+          "protected mutation rejects missing authentication",
+          "authenticated user creates an allowlisted post",
+          "unknown image key is rejected",
+          "feed keeps newest-post ordering",
+          "public profile returns only the requested user's posts",
+          "top-level comment stores a null parentId",
+          "reply stores the exact top-level parentId",
+          "cross-post parent is rejected",
+          "reply to a reply is rejected",
+          "feed preserves comment and one-level reply structure",
+          "failed mutations leave no unexpected records"
+        ],
+        "cleanSeedCounts": {
+          "users": 4,
+          "posts": 8,
+          "comments": 22
+        },
+        "measuredShape": {
+          "posts": 8,
+          "topLevelComments": 16,
+          "replies": 6
+        },
+        "finalCounts": {
+          "users": 5,
+          "posts": 9,
+          "comments": 24
+        }
+      },
+      "queryEvidence": {
+        "operationName": "PublicFeed",
+        "resultShape": {
+          "posts": 8,
+          "topLevelComments": 16,
+          "replies": 6
+        },
+        "traceId": "16abee76-bb57-49ce-a13b-15d8ac18a9cf",
+        "prismaOperationCount": 4,
+        "totalPrismaDurationMs": 5.964,
+        "operationSummary": [
+          {
+            "operationName": "Comment.findMany",
+            "count": 2
+          },
+          {
+            "operationName": "Post.findMany",
+            "count": 1
+          },
+          {
+            "operationName": "User.findMany",
+            "count": 1
+          }
+        ],
+        "sqlQueryCount": 4,
+        "totalSqlDurationMs": 1.75,
+        "sql": [
+          {
+            "sequence": 1,
+            "durationMs": 0.195,
+            "query": "SELECT `main`.`Post`.`id`, `main`.`Post`.`authorId`, `main`.`Post`.`caption`, `main`.`Post`.`imageKey`, `main`.`Post`.`createdAt` FROM `main`.`Post` WHERE 1=1 ORDER BY `main`.`Post`.`createdAt` DESC, `main`.`Post`.`id` DESC LIMIT ? OFFSET ?",
+            "params": "[-1,\"0\"]"
+          },
+          {
+            "sequence": 2,
+            "durationMs": 0.999,
+            "query": "SELECT `main`.`User`.`id`, `main`.`User`.`name`, `main`.`User`.`username`, `main`.`User`.`email`, `main`.`User`.`passwordHash`, `main`.`User`.`avatarKey`, `main`.`User`.`bio`, `main`.`User`.`createdAt` FROM `main`.`User` WHERE `main`.`User`.`id` IN (?,?,?,?) LIMIT ? OFFSET ?",
+            "params": "[\"seed-user-emily\",\"seed-user-alex\",\"seed-user-james\",\"seed-user-sarah\",-1,\"0\"]"
+          },
+          {
+            "sequence": 3,
+            "durationMs": 0.301,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE (`main`.`Comment`.`postId` IN (?,?,?,?,?,?,?,?) AND `main`.`Comment`.`parentId` IS NULL) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-post-01\",\"seed-post-02\",\"seed-post-03\",\"seed-post-04\",\"seed-post-05\",\"seed-post-06\",\"seed-post-07\",\"seed-post-08\",-1,\"0\"]"
+          },
+          {
+            "sequence": 4,
+            "durationMs": 0.255,
+            "query": "SELECT `main`.`Comment`.`id`, `main`.`Comment`.`postId`, `main`.`Comment`.`authorId`, `main`.`Comment`.`parentId`, `main`.`Comment`.`content`, `main`.`Comment`.`createdAt` FROM `main`.`Comment` WHERE `main`.`Comment`.`parentId` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ORDER BY `main`.`Comment`.`createdAt` ASC, `main`.`Comment`.`id` ASC LIMIT ? OFFSET ?",
+            "params": "[\"seed-comment-01\",\"seed-comment-02\",\"seed-comment-03\",\"seed-comment-04\",\"seed-comment-05\",\"seed-comment-06\",\"seed-comment-07\",\"seed-comment-08\",\"seed-comment-09\",\"seed-comment-10\",\"seed-comment-11\",\"seed-comment-12\",\"seed-comment-13\",\"seed-comment-14\",\"seed-comment-15\",\"seed-comment-16\",-1,\"0\"]"
+          }
+        ]
+      }
+    }
+  ],
+  "rehearsal": {
+    "passed": true,
+    "strategy": "dataloader",
+    "cleanSeedCounts": {
+      "users": 4,
+      "posts": 8,
+      "comments": 22
+    },
+    "finalCounts": {
+      "users": 4,
+      "posts": 9,
+      "comments": 24
+    },
+    "measuredFeed": {
+      "posts": 8,
+      "prismaOperationCount": 4,
+      "traceId": "489b2c1a-f2ed-49ad-8e85-f3680a1ea018"
+    },
+    "checks": [
+      "migration deployed to an empty SQLite file",
+      "repeatable seed restored 4 users, 8 posts, and 22 comments/replies",
+      "Apollo/Express health endpoint responded",
+      "seed account logged in through HTTP GraphQL",
+      "public feed used the configured DataLoader strategy",
+      "authenticated post creation succeeded",
+      "top-level comment and exact parentId reply succeeded",
+      "public profile and final nested feed contained rehearsal records"
+    ],
+    "serverOutput": "Postly backend listening on http://localhost:58654",
+    "databaseRemovedAfterRun": true
+  },
+  "diffReview": {
+    "reviewMethod": "git diff --no-index between the preserved naive and selected DataLoader strategy; the project has no Git metadata",
+    "diffFile": "output/diagnostics/d08-naive-to-dataloader.diff",
+    "diffLines": 64,
+    "reviewedSourcePaths": [
+      "backend/src/context.js",
+      "backend/src/resolvers/Query.js",
+      "backend/src/resolvers/Post.js",
+      "backend/src/resolvers/Comment.js",
+      "backend/src/resolvers/User.js",
+      "backend/src/relationStrategies/index.js",
+      "backend/src/relationStrategies/naive.js",
+      "backend/src/relationStrategies/prismaRelationQuery.js",
+      "backend/src/relationStrategies/explicitBatching.js",
+      "backend/src/relationStrategies/dataLoader.js",
+      "backend/src/relationStrategies/batchQueries.js",
+      "backend/src/relationStrategies/manualBatchLoader.js"
+    ],
+    "forbiddenFeatureTerms": [],
+    "domainModels": [
+      "User",
+      "Post",
+      "Comment"
+    ],
+    "graphqlOperationSharedByBothStrategies": true
+  }
+}
