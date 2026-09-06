@@ -13,7 +13,7 @@ aktualnya tercatat pada `Log Eksekusi` dan artifact yang ditautkan.
 
 - `README.md`
 - `docs/AGENTS.md`
-- `../output/Postly-Instructor-Demo-Plan.md`
+- `../output/day-2/instructor/Postly-Instructor-Demo-Plan.md`
 - UI reference pada workspace workshop
 - `docs/assets/ASSET-PROMPTS.md`
 - `output/d05-rendered/`
